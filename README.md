@@ -9,4 +9,4 @@ Sempre que realizar alterações no arquivo de gramática (`.jj`), siga estes pa
 ### 1. Gerar os arquivos do JavaCC
 Execute o comando na raiz do projeto para que o JavaCC processe a gramática:
 ```bash
-java -cp javacc.jar javacc src/projeto_compilador_rust/MyNewGrammar.jj
+java -cp javacc.jar javacc src/projeto_compilador_rust/Rust.jj
