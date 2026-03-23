@@ -1,24 +1,26 @@
 /**
  * JavaCC template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
  */
-options { static = true; }
+options {
+static = true;
+}
 
 
-PARSER_BEGIN(MyNewGrammar)
+PARSER_BEGIN(Rust)
 package projeto_compilador_rust;
 
-public class MyNewGrammar
+public class Rust
 {
   public static void main(String args []) throws ParseException
   {
-    MyNewGrammar parser = new MyNewGrammar(System.in);
+    Rust parser = new Rust(System.in);
     while (true)
     {
       System.out.println("Reading from standard input...");
       System.out.print("Enter an expression like \"1+(2+3)*4;\" :");
       try
       {
-        switch (MyNewGrammar.one_line())
+        switch (Rust.one_line())
         {
           case 0 : 
           System.out.println("OK.");
@@ -34,7 +36,7 @@ public class MyNewGrammar
       {
         System.out.println("NOK.");
         System.out.println(e.getMessage());
-        MyNewGrammar.ReInit(System.in);
+        Rust.ReInit(System.in);
       }
       catch (Error e)
       {
@@ -46,7 +48,7 @@ public class MyNewGrammar
   }
 }
 
-PARSER_END(MyNewGrammar)
+PARSER_END(Rust)
 
 SKIP :
 {
