@@ -64,6 +64,18 @@ TOKEN : /* OPERATORS E SÍMBOLOS*/
 | < MINUS : "-" >
 | < MULTIPLY : "*" >
 | < DIVIDE : "/" >
+| < MODULO : "%" >
+| < AND : "&&" >
+| < OR : "||" >
+| < NOT : "!" >
+| < EQ : "==" >
+| < NEQ : "!=" >
+| < LT : "<" >
+| < GT : ">" >
+| < LE : "<=" >
+| < GE : ">=" >
+| < DOT : "." >
+
 }
 
 TOKEN : /* PALAVRAS RESERVADAS */
@@ -246,13 +258,6 @@ void Comando() :
   | Expressao() <SEMICOLON>
 }
 
-void Expressao() :
-{}
-{
-  sum()
-}
-
-
 /*  Funcoes, Structs e Enums  */
 
 // Assinatura da função, parâmetros e retorno são opcionais (ex: fn teste() {})
@@ -293,4 +298,87 @@ void EnumDef() : {} {
 // Variantes do enum, também aceita vírgula sobrando no final
 void VariantesEnum() : {} {
   <IDENTIFIER> ( <COMMA> <IDENTIFIER> )* [ <COMMA> ]
+}
+
+
+void Expressao() : {}
+{
+  ExpressaoLogicaOr()
+}
+
+//1: or lógico (||)
+void ExpressaoLogicaOr() : {}
+{
+  ExpressaoLogicaAnd() ( <OR> ExpressaoLogicaAnd() )*
+}
+
+//2: and logico (&&)
+void ExpressaoLogicaAnd() : {}
+{
+  ExpressaoIgualdade() ( <AND> ExpressaoIgualdade() )*
+}
+
+//3: igualdade (==, !=)
+void ExpressaoIgualdade() : {}
+{
+  ExpressaoRelacional() ( ( <EQ> | <NEQ> ) ExpressaoRelacional() )*
+}
+
+//4: relacional (<, >, <=, >=)
+void ExpressaoRelacional() : {}
+{
+  ExpressaoAditiva() ( ( <LT> | <GT> | <LE> | <GE> ) ExpressaoAditiva() )*
+}
+
+//5: adição e Subtração (+, -)
+void ExpressaoAditiva() : {}
+{
+  ExpressaoMultiplicativa() ( ( <PLUS> | <MINUS> ) ExpressaoMultiplicativa() )*
+}
+
+// Precedência 6: Multiplicação, Divisão e Módulo (*, /, %)
+// Garante que a multiplicação ocorre antes da soma!
+void ExpressaoMultiplicativa() : {}
+{
+  ExpressaoUnaria() ( ( <MULTIPLY> | <DIVIDE> | <MODULO> ) ExpressaoUnaria() )*
+}
+
+//7: operadores unários (!verdadeiro, -numero)
+void ExpressaoUnaria() : {}
+{
+  ( <MINUS> | <NOT> ) ExpressaoUnaria()
+| ExpressaoAcessoOuChamada()
+}
+
+//8: chamadas de funções, métodos
+void ExpressaoAcessoOuChamada() : {}
+{
+  FatorBase()
+  (
+    //chamada Ex: println!("Olá")
+    <NOT> <LPAREN> ListaArgumentos() <RPAREN>
+  | 
+    //chamada de função: Ex: soma(2, 3)
+    <LPAREN> ListaArgumentos() <RPAREN>
+  | 
+    //chamada de método: objeto.metodo(...)
+    <DOT> <IDENTIFIER> [ <LPAREN> ListaArgumentos() <RPAREN> ]
+  )*
+}
+
+//a base de tudo: números, textos, booleanos, variáveis e parênteses
+void FatorBase() : {}
+{
+  <CONSTANT>
+| <IDENTIFIER>
+| <STRING_LITERAL>
+| <TRUE>
+| <FALSE>
+| <LPAREN> Expressao() <RPAREN>
+}
+
+//regra para ajudar a processar os argumentos separados por virgula
+void ListaArgumentos() : {}
+{
+  [ Expressao() ( <COMMA> Expressao() )* ]
 }
