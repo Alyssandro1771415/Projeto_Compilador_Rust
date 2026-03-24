@@ -68,11 +68,28 @@ TOKEN : /* OPERATORS */
 
 TOKEN : /* PALAVRAS RESERVADAS */
 {
-    < FN: "fn" > | < LET: "let" > | < MUT: "mut" > | < MATCH: "match" >
-  | < IF: "if" > | < ELSE: "else" > | < WHILE: "while" > | < FOR: "for" >
-  | < ARROW: "->" > | < ASSIGN: "=" > | < SEMICOLON: ";" > | < COLON: ":" >
-  | < LBRACE: "{" > | < RBRACE: "}" > | < LPAREN: "(" > | < RPAREN: ")" >
-  | < COMMA: "," > | < FAT_ARROW: "=>" | < ENUM: "enum" | < STRUCT: "struct" >
+    < FN: "fn" > | < LET: "let" > | < MUT: "mut" >
+  | < MATCH: "match" > | < IF: "if" > | < ELSE: "else" >
+  | < WHILE: "while" > | < FOR: "for" > | < ARROW: "->" >
+  | < ASSIGN: "=" > | < SEMICOLON: ";" > | < COLON: ":" >
+  | < LBRACE: "{" > | < RBRACE: "}" > | < LPAREN: "(" >
+  | < RPAREN: ")" > | < COMMA: "," > | < FAT_ARROW: "=>"
+  | < ENUM: "enum" | < STRUCT: "struct" > | <AS: "as">
+  | <ASYNC: "async"> | <AWAIT: "await"> | <BREAK: "break">
+  | <CONST: "const"> | <CONTINUE: "continue"> | <CRATE: "crate">
+  | <DYN: "dyn"> | <EXTERN: "extern"> | <FALSE: "false">
+  | <TRUE: "true"> | <IMPL: "impl">| <IN: "in"> | <LOOP: "loop">
+  | <MOD: "mod"> | <MOV: "mov"> | <PUB: "pub"> | <REF: "ref">
+  | <RETURN: "return"> | <SELF: "self"> | <SSELF: "Self">
+  | <STATIC: "static"> | <SUPER: "super"> | <TRAIT: "trait">
+  | <TYPE: "type"> | <UNSAFE: "unsafe"> | <USE: "use">
+  | <WHERE: "where"> | <DYN: "dyn"> | <ABSTRACT: "abstract">
+  | <BECOME: "become"> | <BOX: "box"> | <DO: "do">
+  | <FINAL: "final"> | <GEN: "gen"> | <MACRO: "macro">
+  | <OVERRIDE: "override"> | <PRIV: "priv"> | <TRY: "try">
+  | <TYPEOF: "typeof"> | <UNSIZED: "unsized"> | <VIRTUAL: "virtual">
+  | <YIELD: "yield"> | <_STATIC: "'static"> | <MACRO_RULES: "macro_rules">
+  | <RAW: "raw"> | <SAFE: "safe"> | <UNION: "union">
 }
 
 TOKEN :
