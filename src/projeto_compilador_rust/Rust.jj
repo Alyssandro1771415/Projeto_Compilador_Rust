@@ -251,3 +251,46 @@ void Expressao() :
 {
   sum()
 }
+
+
+/*  Funcoes, Structs e Enums  */
+
+// Assinatura da função, parâmetros e retorno são opcionais (ex: fn teste() {})
+void Funcao() : {} {
+  <FN> <IDENTIFIER> <LPAREN> [ Parametros() ] <RPAREN> [ <ARROW> Tipo() ] Bloco()
+}
+
+// Lista de parâmetros separados por vírgula
+void Parametros() : {} {
+  Parametro() ( <COMMA> Parametro() )*
+}
+
+// Único parâmetro (ex: "id: i32")
+void Parametro() : {} {
+  <IDENTIFIER> <COLON> Tipo()
+}
+
+// Estrutura do struct, campos são opcionais
+void StructDef() : {} {
+  <STRUCT> <IDENTIFIER> <LBRACE> [ CamposStruct() ] <RBRACE>
+}
+
+// Lista de campos, aceita vírgula sobrando no final (ex: a: i32, )
+void CamposStruct() : {} {
+  CampoStruct() ( <COMMA> CampoStruct() )* [ <COMMA> ]
+}
+
+// Único campo interno (ex: "nome: String")
+void CampoStruct() : {} {
+  <IDENTIFIER> <COLON> Tipo()
+}
+
+// Estrutura base do enum
+void EnumDef() : {} {
+  <ENUM> <IDENTIFIER> <LBRACE> [ VariantesEnum() ] <RBRACE>
+}
+
+// Variantes do enum, também aceita vírgula sobrando no final
+void VariantesEnum() : {} {
+  <IDENTIFIER> ( <COMMA> <IDENTIFIER> )* [ <COMMA> ]
+}
