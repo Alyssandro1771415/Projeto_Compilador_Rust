@@ -1,0 +1,15 @@
+/out/module-info.class
+/out/projeto_compilador_rust/ParseException.class
+/src/projeto_compilador_rust/ParseException.class
+/.idea/Projeto_Compilador_Rust.iml
+/out/*
+/src/projeto_compilador_rust/Rust$JJCalls.class
+/src/projeto_compilador_rust/Rust$LookaheadSuccess.class
+/src/projeto_compilador_rust/Rust.class
+/src/projeto_compilador_rust/RustConstants.class
+/src/projeto_compilador_rust/TestSuite.class
+/.idea/vcs.xml
+/src/projeto_compilador_rust/TokenMgrError.class
+/src/projeto_compilador_rust/TestSuite$TestCase.class
+/src/projeto_compilador_rust/TestSuite$RuleRunner.class
+/scripts/test_compiler.sh

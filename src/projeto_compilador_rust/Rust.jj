@@ -2,7 +2,7 @@
  * JavaCC template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
  */
 options {
-static = true;
+    STATIC = true;
 }
 
 
@@ -64,16 +64,30 @@ TOKEN : /* OPERATORS E SÍMBOLOS*/
 | < MINUS : "-" >
 | < MULTIPLY : "*" >
 | < DIVIDE : "/" >
+| < MODULO : "%" >
+| < AND : "&&" >
+| < OR : "||" >
+| < NOT : "!" >
+| < EQ : "==" >
+| < NEQ : "!=" >
+| < LT : "<" >
+| < GT : ">" >
+| < LE : "<=" >
+| < GE : ">=" >
+| < DOT : "." >
+
 }
 
 TOKEN : /* PALAVRAS RESERVADAS */
 {
-    < FN: "fn" > | < LET: "let" > | < MUT: "mut" >
+    <I32: "i32"> | <F64: "f64"> | <BOOL: "bool"> | <CHAR_T: "char"> | <STR_T: "str">
+  | < FN: "fn" > | < LET: "let" > | < MUT: "mut" >
   | < MATCH: "match" > | < IF: "if" > | < ELSE: "else" >
   | < WHILE: "while" > | < FOR: "for" > | < ARROW: "->" >
   | < ASSIGN: "=" > | < SEMICOLON: ";" > | < COLON: ":" >
   | < LBRACE: "{" > | < RBRACE: "}" > | < LPAREN: "(" >
   | < RPAREN: ")" > | < COMMA: "," > | < FAT_ARROW: "=>" >
+  | < LBRACK: "[" > | < RBRACK: "]" >
   | < ENUM: "enum" > | < STRUCT: "struct" > | < AS: "as" >
   | <ASYNC: "async"> | <AWAIT: "await"> | <BREAK: "break">
   | <CONST: "const"> | <CONTINUE: "continue"> | <CRATE: "crate">
@@ -95,10 +109,13 @@ TOKEN : /* PALAVRAS RESERVADAS */
 
 TOKEN :
 {
-  < CONSTANT : (< DIGIT >)+ >
-| < #DIGIT : [ "0"-"9" ] >
-| < IDENTIFIER : (["a"-"z", "A"-"Z", "_"])(["a"-"z", "A"-"Z", "0"-"9", "_"])* >
-| < STRING_LITERAL : "\"" (~["\"", "\n", "\r"])* "\"" >
+    < CONSTANT : (< DIGIT >)+ >
+  | < FLOAT_LITERAL: (<DIGIT>)+ "." (<DIGIT>)+ >
+  | < BOOLEAN_LITERAL: "true" | "false" >
+  | < CHAR_LITERAL: "'" (~["'", "\n", "\r"]) "'" >
+  | < #DIGIT : [ "0"-"9" ] >
+  | < IDENTIFIER : (["a"-"z", "A"-"Z", "_"])(["a"-"z", "A"-"Z", "0"-"9", "_"])* >
+  | < STRING_LITERAL : "\"" (~["\"", "\n", "\r"])* "\"" >
 }
 
 /* IMPORTAÇÃO DE MÓDULOS */
@@ -136,7 +153,7 @@ void path_set() :
 int one_line() :
 {}
 {
-  sum() ";"
+  Expressao() ";"
   {
     return 0;
   }
@@ -240,6 +257,9 @@ void Pattern() :
 {}
 {
     <CONSTANT>
+  | <BOOLEAN_LITERAL>
+  | <TRUE>
+  | <FALSE>
   | <IDENTIFIER>
   | <STRING_LITERAL>
   | <UNDERSCORE>
@@ -267,15 +287,171 @@ void Bloco() :
   <LBRACE> ( Comando() )* <RBRACE>
 }
 
+void DeclaracaoVar() : {} {
+    <LET> [<MUT>] <IDENTIFIER> [ <COLON> Tipo() ] [ <ASSIGN> Expressao() ] <SEMICOLON>
+}
+
+void DeclaracaoConst() : {} {
+    <CONST> <IDENTIFIER> <COLON> Tipo() <ASSIGN> Expressao() <SEMICOLON>
+}
+
 void Comando() :
 {}
 {
-    EstruturaControle()
+    DeclaracaoVar()
+  | DeclaracaoConst()
+  | EstruturaControle()
   | Expressao() <SEMICOLON>
 }
 
-void Expressao() :
-{}
+/*  Tipos  */
+
+void Tipo() : {} {
+    TipoPrim()
+  | <LPAREN> Tipo() ( <COMMA> Tipo() )+ <RPAREN>
+  | <LBRACK> Tipo() <SEMICOLON> <CONSTANT> <RBRACK>
+}
+
+void TipoPrim() : {} {
+    <I32> | <F64> | <BOOL> | <CHAR_T> | <STR_T>
+}
+
+/*  Funcoes, Structs e Enums  */
+
+// Assinatura da função, parâmetros e retorno são opcionais (ex: fn teste() {})
+void Funcao() : {} {
+  <FN> <IDENTIFIER> <LPAREN> [ Parametros() ] <RPAREN> [ <ARROW> Tipo() ] Bloco()
+}
+
+// Lista de parâmetros separados por vírgula
+void Parametros() : {} {
+  Parametro() ( <COMMA> Parametro() )*
+}
+
+// Único parâmetro (ex: "id: i32")
+void Parametro() : {} {
+  <IDENTIFIER> <COLON> Tipo()
+}
+
+// Estrutura do struct, campos são opcionais
+void StructDef() : {} {
+  <STRUCT> <IDENTIFIER> <LBRACE> [ CamposStruct() ] <RBRACE>
+}
+
+// Lista de campos, aceita vírgula sobrando no final (ex: a: i32, )
+void CamposStruct() : {} {
+  CampoStruct() ( <COMMA> CampoStruct() )* [ <COMMA> ]
+}
+
+// Único campo interno (ex: "nome: String")
+void CampoStruct() : {} {
+  <IDENTIFIER> <COLON> Tipo()
+}
+
+// Estrutura base do enum
+void EnumDef() : {} {
+  <ENUM> <IDENTIFIER> <LBRACE> [ VariantesEnum() ] <RBRACE>
+}
+
+// Variantes do enum, também aceita vírgula sobrando no final
+void VariantesEnum() : {} {
+  <IDENTIFIER> ( <COMMA> <IDENTIFIER> )* [ <COMMA> ]
+}
+
+void Expressao() : {}
 {
-  sum()
+  Atribuicao()
+}
+
+void Atribuicao() : {} {
+    LOOKAHEAD(2) <IDENTIFIER> <ASSIGN> Atribuicao()
+  | ExpressaoLogicaOr()
+}
+
+//1: or lógico (||)
+void ExpressaoLogicaOr() : {}
+{
+  ExpressaoLogicaAnd() ( <OR> ExpressaoLogicaAnd() )*
+}
+
+//2: and logico (&&)
+void ExpressaoLogicaAnd() : {}
+{
+  ExpressaoIgualdade() ( <AND> ExpressaoIgualdade() )*
+}
+
+//3: igualdade (==, !=)
+void ExpressaoIgualdade() : {}
+{
+  ExpressaoRelacional() ( ( <EQ> | <NEQ> ) ExpressaoRelacional() )*
+}
+
+//4: relacional (<, >, <=, >=)
+void ExpressaoRelacional() : {}
+{
+  ExpressaoAditiva() ( ( <LT> | <GT> | <LE> | <GE> ) ExpressaoAditiva() )*
+}
+
+//5: adição e Subtração (+, -)
+void ExpressaoAditiva() : {}
+{
+  ExpressaoMultiplicativa() ( ( <PLUS> | <MINUS> ) ExpressaoMultiplicativa() )*
+}
+
+// Precedência 6: Multiplicação, Divisão e Módulo (*, /, %)
+void ExpressaoMultiplicativa() : {}
+{
+  ExpressaoUnaria() ( ( <MULTIPLY> | <DIVIDE> | <MODULO> ) ExpressaoUnaria() )*
+}
+
+//7: operadores unários (!verdadeiro, -numero)
+void ExpressaoUnaria() : {}
+{
+  ( <MINUS> | <NOT> ) ExpressaoUnaria()
+| ExpressaoAcessoOuChamada()
+}
+
+//8: chamadas de funções, métodos
+void ExpressaoAcessoOuChamada() : {}
+{
+  FatorBase()
+  (
+    <NOT> <LPAREN> ListaArgumentos() <RPAREN>
+  | <LPAREN> ListaArgumentos() <RPAREN>
+  | <DOT> <IDENTIFIER> [ <LPAREN> ListaArgumentos() <RPAREN> ]
+  )*
+}
+
+//a base de tudo: números, textos, booleanos, variáveis e parênteses
+void FatorBase() : {}
+{
+  Literal()
+| <IDENTIFIER>
+| <LPAREN> Expressao() ( <COMMA> Expressao() )+ <RPAREN>
+| <LPAREN> Expressao() <RPAREN>
+| ArrayLiteral()
+}
+
+void Literal() : {} {
+    <CONSTANT>
+  | <FLOAT_LITERAL>
+  | <BOOLEAN_LITERAL>
+  | <TRUE>
+  | <FALSE>
+  | <CHAR_LITERAL>
+  | <STRING_LITERAL>
+}
+
+void ArrayLiteral() : {} {
+    <LBRACK> [ ListaExpressoes() ] <RBRACK>
+}
+
+void ListaExpressoes() : {} {
+    Expressao() ( <COMMA> Expressao() )*
+}
+
+//regra para ajudar a processar os argumentos separados por virgula
+void ListaArgumentos() : {}
+{
+  [ Expressao() ( <COMMA> Expressao() )* ]
 }
