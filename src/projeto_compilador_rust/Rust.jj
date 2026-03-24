@@ -22,13 +22,13 @@ public class Rust
       {
         switch (Rust.one_line())
         {
-          case 0 : 
+          case 0 :
           System.out.println("OK.");
           break;
-          case 1 : 
+          case 1 :
           System.out.println("Goodbye.");
           break;
-          default : 
+          default :
           break;
         }
       }
@@ -64,6 +64,15 @@ TOKEN : /* OPERATORS */
 | < MINUS : "-" >
 | < MULTIPLY : "*" >
 | < DIVIDE : "/" >
+}
+
+TOKEN : /* PALAVRAS RESERVADAS */
+{
+    < FN: "fn" > | < LET: "let" > | < MUT: "mut" > | < MATCH: "match" >
+  | < IF: "if" > | < ELSE: "else" > | < WHILE: "while" > | < FOR: "for" >
+  | < ARROW: "->" > | < ASSIGN: "=" > | < SEMICOLON: ";" > | < COLON: ":" >
+  | < LBRACE: "{" > | < RBRACE: "}" > | < LPAREN: "(" > | < RPAREN: ")" >
+  | < COMMA: "," > | < FAT_ARROW: "=>" | < ENUM: "enum" | < STRUCT: "struct" >
 }
 
 TOKEN :
