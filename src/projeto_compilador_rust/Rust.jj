@@ -73,8 +73,8 @@ TOKEN : /* PALAVRAS RESERVADAS */
   | < WHILE: "while" > | < FOR: "for" > | < ARROW: "->" >
   | < ASSIGN: "=" > | < SEMICOLON: ";" > | < COLON: ":" >
   | < LBRACE: "{" > | < RBRACE: "}" > | < LPAREN: "(" >
-  | < RPAREN: ")" > | < COMMA: "," > | < FAT_ARROW: "=>"
-  | < ENUM: "enum" | < STRUCT: "struct" > | <AS: "as">
+  | < RPAREN: ")" > | < COMMA: "," > | < FAT_ARROW: "=>" >
+  | < ENUM: "enum" > | < STRUCT: "struct" > | < AS: "as" >
   | <ASYNC: "async"> | <AWAIT: "await"> | <BREAK: "break">
   | <CONST: "const"> | <CONTINUE: "continue"> | <CRATE: "crate">
   | <DYN: "dyn"> | <EXTERN: "extern"> | <FALSE: "false">
@@ -83,13 +83,14 @@ TOKEN : /* PALAVRAS RESERVADAS */
   | <RETURN: "return"> | <SELF: "self"> | <SSELF: "Self">
   | <STATIC: "static"> | <SUPER: "super"> | <TRAIT: "trait">
   | <TYPE: "type"> | <UNSAFE: "unsafe"> | <USE: "use">
-  | <WHERE: "where"> | <DYN: "dyn"> | <ABSTRACT: "abstract">
+  | <WHERE: "where"> | <ABSTRACT: "abstract">
   | <BECOME: "become"> | <BOX: "box"> | <DO: "do">
   | <FINAL: "final"> | <GEN: "gen"> | <MACRO: "macro">
   | <OVERRIDE: "override"> | <PRIV: "priv"> | <TRY: "try">
   | <TYPEOF: "typeof"> | <UNSIZED: "unsized"> | <VIRTUAL: "virtual">
   | <YIELD: "yield"> | <_STATIC: "'static"> | <MACRO_RULES: "macro_rules">
   | <RAW: "raw"> | <SAFE: "safe"> | <UNION: "union">
+  | <UNDERSCORE: "_"> | <DOTDOT: "..">
 }
 
 TOKEN :
@@ -157,7 +158,7 @@ void element() :
 | "(" sum() ")"
 }
 
-/* Fluxo de controle (Matheus): regras adaptadas para a interface do parser global. */
+/* Fluxo de controle : regras adaptadas para a interface do parser global. */
 
 void EstruturaControle() :
 {}
