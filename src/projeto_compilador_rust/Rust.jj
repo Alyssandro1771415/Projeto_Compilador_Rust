@@ -58,13 +58,12 @@ SKIP :
 | "\n"
 }
 
-TOKEN : /* OPERATORS */
+TOKEN : /* OPERATORS E SÍMBOLOS*/
 {
-  < PLUS : "+" >
-| < MINUS : "-" >
-| < MULTIPLY : "*" >
-| < DIVIDE : "/" >
-}
+  < PLUS : "+" > | < MINUS : "-" > | < MULTIPLY : "*" > | < DIVIDE : "/" >
+| < ARROW: "->" > | < ASSIGN: "=" > | < SEMICOLON: ";" > | < COLON: ":" >
+| < LBRACE: "{" > | < RBRACE: "}" > | < LPAREN: "(" > | < RPAREN: ")" >
+| < COMMA: "," > | < FAT_ARROW: "=>" >}
 
 TOKEN : /* PALAVRAS RESERVADAS */
 {
@@ -97,6 +96,10 @@ TOKEN :
   < CONSTANT : (< DIGIT >)+ >
 | < #DIGIT : [ "0"-"9" ] >
 }
+
+/* IMPORTAÇÃO DE MÓDULOS */
+
+
 
 int one_line() :
 {}
