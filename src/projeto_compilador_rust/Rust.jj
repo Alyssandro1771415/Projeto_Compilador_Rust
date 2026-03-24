@@ -118,35 +118,59 @@ TOKEN :
   | < STRING_LITERAL : "\"" (~["\"", "\n", "\r"])* "\"" >
 }
 
-/* IMPORTAÇÃO DE MÓDULOS */
+
+
+/* REGRA DE ENTRADA PRINCIPAL */
+void Start() :
+{}
+{
+  ( Item() )* < EOF >
+}
+
+
+
+
+/* IMPORTAÇÃO E MÓDULOS */
+void module_declaration() :
+{}
+{
+  < MOD > < IDENTIFIER > < LBRACE > ( Item() )* < RBRACE >
+}
+
+void Item() :
+{}
+{
+    LOOKAHEAD(2) Funcao()
+  | LOOKAHEAD(2) StructDef()
+  | LOOKAHEAD(2) EnumDef()
+  | LOOKAHEAD(2) module_declaration()
+  | use_imports()
+  | DeclaracaoConst()
+}
+
 void modules_import() :
 {}
 {
-
+  < MOD > < IDENTIFIER >
 }
 
-void use_imports() :
-{}
-{
-  < USE > path_set() <LBRACE> (< IDENTIFIER >< COMMA >)< IDENTIFIER >* <RBRACE>
-}
-
-void use_imports_as() :
-{}
-{
-  < USE > path_set()Funcao()  < AS > < IDENTIFIER >
+void use_imports() : {} {
+  <USE> path_set() (
+      <LBRACE> (<IDENTIFIER> (<COMMA>)? )* <RBRACE>
+    | <IDENTIFIER> [ <AS> <IDENTIFIER> ]
+  ) <SEMICOLON>
 }
 
 void direct_import_full_path() :
 {}
 {
-  path_set()Funcao()
+  path_set()< IDENTIFIER >< LPAREN >< RPAREN >
 }
 
 void path_set() :
 {}
 {
-  (< IDENTIFIER >< PATH_SEPARATOR>)+
+  <IDENTIFIER>(< PATH_SEPARATOR>< IDENTIFIER >)*
 }
 
 /* OPERAÇÕES ARITMÉTICAS */
@@ -284,7 +308,9 @@ void Iteravel() :
 void Bloco() :
 {}
 {
-  <LBRACE> ( Comando() )* <RBRACE>
+  <LBRACE>
+    ( LOOKAHEAD(2) Comando() )* [ Expressao() ] // A expressão de retorno opcional no final
+  <RBRACE>
 }
 
 void DeclaracaoVar() : {} {
@@ -346,6 +372,8 @@ void CamposStruct() : {} {
 // Único campo interno (ex: "nome: String")
 void CampoStruct() : {} {
   <IDENTIFIER> <COLON> Tipo()
+
+//1: or lógico (||)
 }
 
 // Estrutura base do enum
