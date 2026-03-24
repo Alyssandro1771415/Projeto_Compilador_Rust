@@ -60,10 +60,11 @@ SKIP :
 
 TOKEN : /* OPERATORS E SÍMBOLOS*/
 {
-  < PLUS : "+" > | < MINUS : "-" > | < MULTIPLY : "*" > | < DIVIDE : "/" >
-| < ARROW: "->" > | < ASSIGN: "=" > | < SEMICOLON: ";" > | < COLON: ":" >
-| < LBRACE: "{" > | < RBRACE: "}" > | < LPAREN: "(" > | < RPAREN: ")" >
-| < COMMA: "," > | < FAT_ARROW: "=>" >}
+  < PLUS : "+" >
+| < MINUS : "-" >
+| < MULTIPLY : "*" >
+| < DIVIDE : "/" >
+}
 
 TOKEN : /* PALAVRAS RESERVADAS */
 {
