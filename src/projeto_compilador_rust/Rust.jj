@@ -90,7 +90,7 @@ TOKEN : /* PALAVRAS RESERVADAS */
   | <TYPEOF: "typeof"> | <UNSIZED: "unsized"> | <VIRTUAL: "virtual">
   | <YIELD: "yield"> | <_STATIC: "'static"> | <MACRO_RULES: "macro_rules">
   | <RAW: "raw"> | <SAFE: "safe"> | <UNION: "union">
-  | <UNDERSCORE: "_"> | <DOTDOT: "..">
+  | <UNDERSCORE: "_"> | <DOTDOT: ".."> | <PATH_SEPARATOR: "::">
 }
 
 TOKEN :
@@ -102,9 +102,37 @@ TOKEN :
 }
 
 /* IMPORTAÇÃO DE MÓDULOS */
+void modules_import() :
+{}
+{
 
+}
 
+void use_imports() :
+{}
+{
+  < USE > path_set() <LBRACE> (< IDENTIFIER >< COMMA >)< IDENTIFIER >* <RBRACE>
+}
 
+void use_imports_as() :
+{}
+{
+  < USE > path_set()Funcao()  < AS > < IDENTIFIER >
+}
+
+void direct_import_full_path() :
+{}
+{
+  path_set()Funcao()
+}
+
+void path_set() :
+{}
+{
+  (< IDENTIFIER >< PATH_SEPARATOR>)+
+}
+
+/* OPERAÇÕES ARITMÉTICAS */
 int one_line() :
 {}
 {
@@ -155,7 +183,7 @@ void element() :
 {}
 {
   < CONSTANT >
-| "(" sum() ")"
+| < LPAREN > sum() < RPAREN >
 }
 
 /* Fluxo de controle : regras adaptadas para a interface do parser global. */
