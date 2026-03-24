@@ -14,36 +14,19 @@ public class Rust
   public static void main(String args []) throws ParseException
   {
     Rust parser = new Rust(System.in);
-    while (true)
+    System.out.println("Compilador Rust carregado. Digite o codigo:");
+    try
     {
-      System.out.println("Reading from standard input...");
-      System.out.print("Enter an expression like \"1+(2+3)*4;\" :");
-      try
-      {
-        switch (Rust.one_line())
-        {
-          case 0 :
-          System.out.println("OK.");
-          break;
-          case 1 :
-          System.out.println("Goodbye.");
-          break;
-          default :
-          break;
-        }
-      }
-      catch (Exception e)
-      {
-        System.out.println("NOK.");
-        System.out.println(e.getMessage());
-        Rust.ReInit(System.in);
-      }
-      catch (Error e)
-      {
-        System.out.println("Oops.");
-        System.out.println(e.getMessage());
-        break;
-      }
+      parser.Start();
+      System.out.println("Analise Sintatica: OK.");
+    }
+    catch (Exception e)
+    {
+      System.out.println("Erro Sintatico: " + e.getMessage());
+    }
+    catch (Error e)
+    {
+      System.out.println("Erro: " + e.getMessage());
     }
   }
 }
