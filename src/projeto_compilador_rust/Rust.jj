@@ -70,15 +70,19 @@ TOKEN : /* PALAVRAS RESERVADAS */
 {
     < FN: "fn" > | < LET: "let" > | < MUT: "mut" > | < MATCH: "match" >
   | < IF: "if" > | < ELSE: "else" > | < WHILE: "while" > | < FOR: "for" >
+  | < LOOP: "loop" > | < IN: "in" >
   | < ARROW: "->" > | < ASSIGN: "=" > | < SEMICOLON: ";" > | < COLON: ":" >
   | < LBRACE: "{" > | < RBRACE: "}" > | < LPAREN: "(" > | < RPAREN: ")" >
-  | < COMMA: "," > | < FAT_ARROW: "=>" | < ENUM: "enum" | < STRUCT: "struct" >
+  | < COMMA: "," > | < FAT_ARROW: "=>" > | < ENUM: "enum" > | < STRUCT: "struct" >
+  | < UNDERSCORE: "_" > | < DOTDOT: ".." >
 }
 
 TOKEN :
 {
   < CONSTANT : (< DIGIT >)+ >
 | < #DIGIT : [ "0"-"9" ] >
+| < IDENTIFIER : (["a"-"z", "A"-"Z", "_"])(["a"-"z", "A"-"Z", "0"-"9", "_"])* >
+| < STRING_LITERAL : "\"" (~["\"", "\n", "\r"])* "\"" >
 }
 
 int one_line() :
@@ -132,4 +136,98 @@ void element() :
 {
   < CONSTANT >
 | "(" sum() ")"
+}
+
+/* Fluxo de controle (Matheus): regras adaptadas para a interface do parser global. */
+
+void EstruturaControle() :
+{}
+{
+    IfStmt()
+  | WhileStmt()
+  | LoopStmt()
+  | ForStmt()
+  | MatchStmt()
+}
+
+void IfStmt() :
+{}
+{
+  <IF> Expressao() Bloco()
+  ( LOOKAHEAD(2) <ELSE> <IF> Expressao() Bloco() )*
+  [ <ELSE> Bloco() ]
+}
+
+void WhileStmt() :
+{}
+{
+  <WHILE> Expressao() Bloco()
+}
+
+void LoopStmt() :
+{}
+{
+  <LOOP> Bloco()
+}
+
+void ForStmt() :
+{}
+{
+  <FOR> <IDENTIFIER> <IN> Iteravel() Bloco()
+}
+
+void MatchStmt() :
+{}
+{
+  <MATCH> Expressao() <LBRACE> ( MatchArm() ( <COMMA> )? )* <RBRACE>
+}
+
+void MatchArm() :
+{}
+{
+  Pattern() <FAT_ARROW> MatchBody()
+}
+
+void Pattern() :
+{}
+{
+    <CONSTANT>
+  | <IDENTIFIER>
+  | <STRING_LITERAL>
+  | <UNDERSCORE>
+}
+
+void MatchBody() :
+{}
+{
+    Bloco()
+  | <STRING_LITERAL>
+  | Expressao()
+}
+
+void Iteravel() :
+{}
+{
+  Expressao() [ <DOTDOT> Expressao() ]
+}
+
+/* Wrappers temporarios para integrar o bloco de controle antes da chegada do Start(). */
+
+void Bloco() :
+{}
+{
+  <LBRACE> ( Comando() )* <RBRACE>
+}
+
+void Comando() :
+{}
+{
+    EstruturaControle()
+  | Expressao() <SEMICOLON>
+}
+
+void Expressao() :
+{}
+{
+  sum()
 }
