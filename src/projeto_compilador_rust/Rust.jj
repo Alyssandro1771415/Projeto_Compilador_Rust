@@ -14,7 +14,7 @@ public class Rust
   public static void main(String args []) throws ParseException
   {
     Rust parser = new Rust(System.in);
-    System.out.println("Compilador Rust carregado. Digite o codigo:");
+    System.out.println("Compilador Rust carregado.");
     try
     {
       parser.Start();
