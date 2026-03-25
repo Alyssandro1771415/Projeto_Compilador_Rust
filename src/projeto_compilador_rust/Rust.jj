@@ -418,8 +418,7 @@ void FatorBase() : {}
 | <IDENTIFIER>
 | LOOKAHEAD(2) IfStmt()
 | MatchStmt()
-| LOOKAHEAD(3) <LPAREN> Expressao() ( <COMMA> Expressao() )+ <RPAREN>
-| <LPAREN> Expressao() <RPAREN>
+| ParenthesizedOuTuple()
 | ArrayLiteral()
 }
 
