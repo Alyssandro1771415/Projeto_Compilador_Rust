@@ -458,6 +458,12 @@ void ExpressaoAcessoOuChamada() : {}
   )*
 }
 
+/* Exemplo: (10 + 5) | (a, b) */
+void ParenthesizedOuTuple() : {}
+{
+  <LPAREN> Expressao() ( <COMMA> Expressao() )* <RPAREN>
+}
+
 /* Exemplo: 10 | nome | if ok { 1 } else { 2 } | match x { _ => 0 } | [1, 2] */
 void FatorBase() : {}
 {
@@ -465,8 +471,7 @@ void FatorBase() : {}
 | <IDENTIFIER>
 | LOOKAHEAD(2) IfStmt()
 | MatchStmt()
-| LOOKAHEAD(3) <LPAREN> Expressao() ( <COMMA> Expressao() )+ <RPAREN>
-| <LPAREN> Expressao() <RPAREN>
+| ParenthesizedOuTuple()
 | ArrayLiteral()
 }
 
