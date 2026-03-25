@@ -7,6 +7,6 @@ Este repositório contém o desenvolvimento de um analisador léxico e sintátic
 Sempre que realizar alterações no arquivo de gramática (`.jj`), siga estes passos para atualizar o sistema:
 
 ### 1. Gerar os arquivos do JavaCC
-Execute o comando na raiz do projeto para que o JavaCC processe a gramática:
+Execute o comando na src/projeto_compilador_rust do projeto para que o JavaCC processe a gramática:
 ```bash
 java -cp javacc.jar javacc src/projeto_compilador_rust/Rust.jj
