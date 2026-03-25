@@ -99,6 +99,8 @@ TOKEN :
   | < #DIGIT : [ "0"-"9" ] >
   | < IDENTIFIER : (["a"-"z", "A"-"Z", "_"])(["a"-"z", "A"-"Z", "0"-"9", "_"])* >
   | < STRING_LITERAL : "\"" (~["\"", "\n", "\r"])* "\"" >
+  | < PRINT: "println!" >
+  | < READ: "read_line!" >
 }
 
 
@@ -112,6 +114,10 @@ void Start() :
 
 
 
+void EntradaSaida() : {} {
+    <PRINT> <LPAREN> Expressao() <RPAREN> <SEMICOLON>
+  | <READ> <LPAREN> <IDENTIFIER> <RPAREN> <SEMICOLON>
+}
 
 /* IMPORTAÇÃO E MÓDULOS */
 void module_declaration() :
