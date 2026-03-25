@@ -168,60 +168,6 @@ void path_set() :
   <IDENTIFIER>(< PATH_SEPARATOR>< IDENTIFIER >)*
 }
 
-/* OPERAÇÕES ARITMÉTICAS */
-int one_line() :
-{}
-{
-  Expressao() ";"
-  {
-    return 0;
-  }
-| ";"
-  {
-    return 1;
-  }
-}
-
-void sum() :
-{}
-{
-  term()
-  (
-    (
-      < PLUS >
-    | < MINUS >
-    )
-    term()
-  )*
-}
-
-void term() :
-{}
-{
-  unary()
-  (
-    (
-      < MULTIPLY >
-    | < DIVIDE >
-    )
-    unary()
-  )*
-}
-
-void unary() :
-{}
-{
-  < MINUS > element()
-| element()
-}
-
-void element() :
-{}
-{
-  < CONSTANT >
-| < LPAREN > sum() < RPAREN >
-}
-
 /* Fluxo de controle : regras adaptadas para a interface do parser global. */
 
 /* Exemplo: if x > 0 { 1 } else { 2 } | while x < 10 { x = x + 1; } */
@@ -441,7 +387,8 @@ void ExpressaoMultiplicativa() : {}
 }
 
 /* 7: operadores unários (!verdadeiro, -numero) */
-void ExpressaoUnaria() : {} {
+void ExpressaoUnaria() : {}
+{
   ( <MINUS> | <NOT> ) ExpressaoUnaria()
 | ExpressaoAcessoOuChamada()
 }
@@ -471,7 +418,8 @@ void FatorBase() : {}
 | <IDENTIFIER>
 | LOOKAHEAD(2) IfStmt()
 | MatchStmt()
-| ParenthesizedOuTuple()
+| LOOKAHEAD(3) <LPAREN> Expressao() ( <COMMA> Expressao() )+ <RPAREN>
+| <LPAREN> Expressao() <RPAREN>
 | ArrayLiteral()
 }
 
