@@ -106,6 +106,7 @@ TOKEN :
 
 
 /* REGRA DE ENTRADA PRINCIPAL */
+// Exemplo: fn soma(a: i32, b: i32) -> i32 { a + b }
 void Start() :
 {}
 {
@@ -114,18 +115,22 @@ void Start() :
 
 
 
+// Exemplo: println!("Ola");
+// Exemplo: read_line!(nome);
 void EntradaSaida() : {} {
     <PRINT> <LPAREN> Expressao() <RPAREN> <SEMICOLON>
   | <READ> <LPAREN> <IDENTIFIER> <RPAREN> <SEMICOLON>
 }
 
 /* IMPORTAÇÃO E MÓDULOS */
+// Exemplo: mod utils { fn dobro(x: i32) -> i32 { x * 2 } }
 void module_declaration() :
 {}
 {
   < MOD > < IDENTIFIER > < LBRACE > ( Item() )* < RBRACE >
 }
 
+// Exemplo: fn main() { ... } | struct Pessoa { idade: i32 } | use std::io;
 void Item() :
 {}
 {
@@ -143,6 +148,7 @@ void modules_import() :
   < MOD > < IDENTIFIER >
 }
 
+// Exemplo: use std::io;
 void use_imports() : {} {
   <USE> path_set() (
       <LBRACE> (<IDENTIFIER> (<COMMA>)? )* <RBRACE>
@@ -218,6 +224,7 @@ void element() :
 
 /* Fluxo de controle : regras adaptadas para a interface do parser global. */
 
+// Exemplo: if x > 0 { 1 } else { 2 } | while x < 10 { x = x + 1; }
 void EstruturaControle() :
 {}
 {
@@ -228,6 +235,7 @@ void EstruturaControle() :
   | MatchStmt()
 }
 
+// Exemplo: if condicao { 1 } else if outra { 2 } else { 3 }
 void IfStmt() :
 {}
 {
@@ -236,36 +244,42 @@ void IfStmt() :
   [ <ELSE> Bloco() ]
 }
 
+// Exemplo: while x < 10 { x = x + 1; }
 void WhileStmt() :
 {}
 {
   <WHILE> Expressao() Bloco()
 }
 
+// Exemplo: loop { contador = contador + 1; }
 void LoopStmt() :
 {}
 {
   <LOOP> Bloco()
 }
 
+// Exemplo: for i in 0..10 { println!(i); }
 void ForStmt() :
 {}
 {
   <FOR> <IDENTIFIER> <IN> Iteravel() Bloco()
 }
 
+// Exemplo: match opcao { 1 => "Sim", _ => "Nao" }
 void MatchStmt() :
 {}
 {
   <MATCH> Expressao() <LBRACE> ( MatchArm() ( <COMMA> )? )* <RBRACE>
 }
 
+// Exemplo: 1 => "Sim"
 void MatchArm() :
 {}
 {
   Pattern() <FAT_ARROW> MatchBody()
 }
 
+// Exemplo: _ | 1 | "texto" | true
 void Pattern() :
 {}
 {
@@ -278,6 +292,7 @@ void Pattern() :
   | <UNDERSCORE>
 }
 
+// Exemplo: { x + 1 } | "Sim" | resultado + 1
 void MatchBody() :
 {}
 {
@@ -286,6 +301,7 @@ void MatchBody() :
   | Expressao()
 }
 
+// Exemplo: 0..10 | lista
 void Iteravel() :
 {}
 {
@@ -294,6 +310,7 @@ void Iteravel() :
 
 /* Wrappers temporarios para integrar o bloco de controle antes da chegada do Start(). */
 
+// Exemplo: { let x = 5; x + 1 }
 void Bloco() :
 {}
 {
@@ -302,14 +319,17 @@ void Bloco() :
   <RBRACE>
 }
 
+// Exemplo: let x: i32 = 5;
 void DeclaracaoVar() : {} {
     <LET> [<MUT>] <IDENTIFIER> [ <COLON> Tipo() ] [ <ASSIGN> Expressao() ] <SEMICOLON>
 }
 
+// Exemplo: const LIMITE: i32 = 10;
 void DeclaracaoConst() : {} {
     <CONST> <IDENTIFIER> <COLON> Tipo() <ASSIGN> Expressao() <SEMICOLON>
 }
 
+// Exemplo: let x = 5; | if x > 0 { 1 } else { 2 } | soma(a, b);
 void Comando() :
 {}
 {
@@ -321,6 +341,7 @@ void Comando() :
 
 /*  Tipos  */
 
+// Exemplo: i32 | (i32, bool) | [i32; 10]
 void Tipo() : {} {
     TipoPrim()
   | <LPAREN> Tipo() ( <COMMA> Tipo() )+ <RPAREN>
@@ -333,48 +354,49 @@ void TipoPrim() : {} {
 
 /*  Funcoes, Structs e Enums  */
 
-// Assinatura da função, parâmetros e retorno são opcionais (ex: fn teste() {})
+// Exemplo: fn soma(a: i32, b: i32) -> i32 { a + b }
 void Funcao() : {} {
   <FN> <IDENTIFIER> <LPAREN> [ Parametros() ] <RPAREN> [ <ARROW> Tipo() ] Bloco()
 }
 
-// Lista de parâmetros separados por vírgula
+// Exemplo: a: i32, b: i32
 void Parametros() : {} {
   Parametro() ( <COMMA> Parametro() )*
 }
 
-// Único parâmetro (ex: "id: i32")
+// Exemplo: id: i32
 void Parametro() : {} {
   <IDENTIFIER> <COLON> Tipo()
 }
 
-// Estrutura do struct, campos são opcionais
+// Exemplo: struct Pessoa { nome: str, idade: i32 }
 void StructDef() : {} {
   <STRUCT> <IDENTIFIER> <LBRACE> [ CamposStruct() ] <RBRACE>
 }
 
-// Lista de campos, aceita vírgula sobrando no final (ex: a: i32, )
+// Exemplo: nome: str, idade: i32,
 void CamposStruct() : {} {
   CampoStruct() ( <COMMA> CampoStruct() )* [ <COMMA> ]
 }
 
-// Único campo interno (ex: "nome: String")
+// Exemplo: idade: i32
 void CampoStruct() : {} {
   <IDENTIFIER> <COLON> Tipo()
 
 //1: or lógico (||)
 }
 
-// Estrutura base do enum
+// Exemplo: enum Cor { Vermelho, Verde, Azul }
 void EnumDef() : {} {
   <ENUM> <IDENTIFIER> <LBRACE> [ VariantesEnum() ] <RBRACE>
 }
 
-// Variantes do enum, também aceita vírgula sobrando no final
+// Exemplo: Vermelho, Verde, Azul,
 void VariantesEnum() : {} {
   <IDENTIFIER> ( <COMMA> <IDENTIFIER> )* [ <COMMA> ]
 }
 
+// Exemplo: a + b * 2 > 10 && ativo
 void Expressao() : {}
 {
   Atribuicao()
@@ -428,7 +450,7 @@ void ExpressaoUnaria() : {}
 | ExpressaoAcessoOuChamada()
 }
 
-//8: chamadas de funções, métodos
+// Exemplo: soma(a, b) | pessoa.nome | lista.push(x)
 void ExpressaoAcessoOuChamada() : {}
 {
   FatorBase()
@@ -439,7 +461,7 @@ void ExpressaoAcessoOuChamada() : {}
   )*
 }
 
-//a base de tudo: números, textos, booleanos, variáveis e parênteses
+// Exemplo: 10 | nome | if ok { 1 } else { 2 } | match x { _ => 0 } | [1, 2]
 void FatorBase() : {}
 {
   Literal()
