@@ -20,7 +20,7 @@ fn main() {
     println!("Digite um valor:");
     read_line!(input_usuario);
 
-    let calculo: i32 = (10 + 5) * 2 / 3 % 2;
+    let calculo: i32 = 10 + 5 * 2 / 3 % 2;
 
     if idade >= 18 && ativo == true {
         println!("Acesso permitido");
