@@ -315,7 +315,7 @@ void Bloco() :
 {}
 {
   <LBRACE>
-    ( LOOKAHEAD(2) Comando() )* [ Expressao() ] // A expressão de retorno opcional no final
+    ( LOOKAHEAD(2) Comando() )* [ Expressao() ] /* A expressão de retorno opcional no final */
   <RBRACE>
 }
 
@@ -383,7 +383,7 @@ void CamposStruct() : {} {
 void CampoStruct() : {} {
   <IDENTIFIER> <COLON> Tipo()
 
-//1: or lógico (||)
+/* 1: or lógico (||) */
 }
 
 /* Exemplo: enum Cor { Vermelho, Verde, Azul } */
@@ -407,43 +407,43 @@ void Atribuicao() : {} {
   | ExpressaoLogicaOr()
 }
 
-//1: or lógico (||)
+/* 1: or lógico (||) */
 void ExpressaoLogicaOr() : {}
 {
   ExpressaoLogicaAnd() ( <OR> ExpressaoLogicaAnd() )*
 }
 
-//2: and logico (&&)
+/* 2: and logico (&&) */
 void ExpressaoLogicaAnd() : {}
 {
   ExpressaoIgualdade() ( <AND> ExpressaoIgualdade() )*
 }
 
-//3: igualdade (==, !=)
+/* 3: igualdade (==, !=) */
 void ExpressaoIgualdade() : {}
 {
   ExpressaoRelacional() ( ( <EQ> | <NEQ> ) ExpressaoRelacional() )*
 }
 
-//4: relacional (<, >, <=, >=)
+/* 4: relacional (<, >, <=, >=) */
 void ExpressaoRelacional() : {}
 {
   ExpressaoAditiva() ( ( <LT> | <GT> | <LE> | <GE> ) ExpressaoAditiva() )*
 }
 
-//5: adição e Subtração (+, -)
+/* 5: adição e Subtração (+, -) */
 void ExpressaoAditiva() : {}
 {
   ExpressaoMultiplicativa() ( ( <PLUS> | <MINUS> ) ExpressaoMultiplicativa() )*
 }
 
-// Precedência 6: Multiplicação, Divisão e Módulo (*, /, %)
+/* Precedência 6: Multiplicação, Divisão e Módulo (*, /, %) */
 void ExpressaoMultiplicativa() : {}
 {
   ExpressaoUnaria() ( ( <MULTIPLY> | <DIVIDE> | <MODULO> ) ExpressaoUnaria() )*
 }
 
-//7: operadores unários (!verdadeiro, -numero)
+/* 7: operadores unários (!verdadeiro, -numero) */
 void ExpressaoUnaria() : {}
 {
   ( <MINUS> | <NOT> ) ExpressaoUnaria()
@@ -491,7 +491,7 @@ void ListaExpressoes() : {} {
     Expressao() ( <COMMA> Expressao() )*
 }
 
-//regra para ajudar a processar os argumentos separados por virgula
+/* Regra para ajudar a processar os argumentos separados por virgula */
 void ListaArgumentos() : {}
 {
   [ Expressao() ( <COMMA> Expressao() )* ]
