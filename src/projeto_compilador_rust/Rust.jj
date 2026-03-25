@@ -18,7 +18,7 @@ public class Rust
     try
     {
       parser.Start();
-      System.out.println("Analise Sintatica: OK.");
+      System.out.println("Analise Sintatica e Léxica: OK.");
     }
     catch (Exception e)
     {
@@ -150,10 +150,10 @@ void modules_import() :
 
 /* Exemplo: use std::io; */
 void use_imports() : {} {
-  <USE> path_set() (
-      <LBRACE> (<IDENTIFIER> (<COMMA>)? )* <RBRACE>
+  <USE> path_set() [
+    <LBRACE> (<IDENTIFIER> (<COMMA>)? )* <RBRACE>
     | <IDENTIFIER> [ <AS> <IDENTIFIER> ]
-  ) <SEMICOLON>
+  ] <SEMICOLON>
 }
 
 void direct_import_full_path() :
@@ -330,12 +330,11 @@ void DeclaracaoConst() : {} {
 }
 
 /* Exemplo: let x = 5; | if x > 0 { 1 } else { 2 } | soma(a, b); */
-void Comando() :
-{}
-{
+void Comando() : {} {
     DeclaracaoVar()
   | DeclaracaoConst()
   | EstruturaControle()
+  | LOOKAHEAD(2) EntradaSaida() /* Adicionado LOOKAHEAD aqui */
   | Expressao() <SEMICOLON>
 }
 
@@ -382,8 +381,6 @@ void CamposStruct() : {} {
 /* Exemplo: idade: i32 */
 void CampoStruct() : {} {
   <IDENTIFIER> <COLON> Tipo()
-
-/* 1: or lógico (||) */
 }
 
 /* Exemplo: enum Cor { Vermelho, Verde, Azul } */
@@ -444,8 +441,7 @@ void ExpressaoMultiplicativa() : {}
 }
 
 /* 7: operadores unários (!verdadeiro, -numero) */
-void ExpressaoUnaria() : {}
-{
+void ExpressaoUnaria() : {} {
   ( <MINUS> | <NOT> ) ExpressaoUnaria()
 | ExpressaoAcessoOuChamada()
 }
@@ -455,8 +451,9 @@ void ExpressaoAcessoOuChamada() : {}
 {
   FatorBase()
   (
-    <NOT> <LPAREN> ListaArgumentos() <RPAREN>
-  | <LPAREN> ListaArgumentos() <RPAREN>
+    /* Chamada de função: nome() ou nome(a, b) */
+    <LPAREN> ListaArgumentos() <RPAREN>
+    /* Acesso a atributo ou método: objeto.campo ou objeto.metodo() */
   | <DOT> <IDENTIFIER> [ <LPAREN> ListaArgumentos() <RPAREN> ]
   )*
 }
@@ -466,9 +463,9 @@ void FatorBase() : {}
 {
   Literal()
 | <IDENTIFIER>
-| IfStmt()
+| LOOKAHEAD(2) IfStmt()
 | MatchStmt()
-| <LPAREN> Expressao() ( <COMMA> Expressao() )+ <RPAREN>
+| LOOKAHEAD(3) <LPAREN> Expressao() ( <COMMA> Expressao() )+ <RPAREN>
 | <LPAREN> Expressao() <RPAREN>
 | ArrayLiteral()
 }

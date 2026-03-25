@@ -9,7 +9,7 @@ public class Rust implements RustConstants {
     try
     {
       parser.Start();
-      System.out.println("Analise Sintatica: OK.");
+      System.out.println("Analise Sintatica e L\u00e9xica: OK.");
     }
     catch (Exception e)
     {
@@ -22,7 +22,7 @@ public class Rust implements RustConstants {
   }
 
 /* REGRA DE ENTRADA PRINCIPAL */
-// Exemplo: fn soma(a: i32, b: i32) -> i32 { a + b }
+/* Exemplo: fn soma(a: i32, b: i32) -> i32 { a + b } */
   static final public void Start() throws ParseException {
     label_1:
     while (true) {
@@ -44,8 +44,8 @@ public class Rust implements RustConstants {
     jj_consume_token(0);
   }
 
-// Exemplo: println!("Ola");
-// Exemplo: read_line!(nome);
+/* Exemplo: println!("Ola"); */
+/* Exemplo: read_line!(nome); */
   static final public void EntradaSaida() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case PRINT:
@@ -70,7 +70,7 @@ public class Rust implements RustConstants {
   }
 
 /* IMPORTAÇÃO E MÓDULOS */
-// Exemplo: mod utils { fn dobro(x: i32) -> i32 { x * 2 } }
+/* Exemplo: mod utils { fn dobro(x: i32) -> i32 { x * 2 } } */
   static final public void module_declaration() throws ParseException {
     jj_consume_token(MOD);
     jj_consume_token(IDENTIFIER);
@@ -95,7 +95,7 @@ public class Rust implements RustConstants {
     jj_consume_token(RBRACE);
   }
 
-// Exemplo: fn main() { ... } | struct Pessoa { idade: i32 } | use std::io;
+/* Exemplo: fn main() { ... } | struct Pessoa { idade: i32 } | use std::io; */
   static final public void Item() throws ParseException {
     if (jj_2_1(2)) {
       Funcao();
@@ -126,51 +126,59 @@ public class Rust implements RustConstants {
     jj_consume_token(IDENTIFIER);
   }
 
-// Exemplo: use std::io;
+/* Exemplo: use std::io; */
   static final public void use_imports() throws ParseException {
     jj_consume_token(USE);
     path_set();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LBRACE:
-      jj_consume_token(LBRACE);
-      label_3:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case IDENTIFIER:
-          ;
-          break;
-        default:
-          jj_la1[4] = jj_gen;
-          break label_3;
-        }
-        jj_consume_token(IDENTIFIER);
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case COMMA:
-          jj_consume_token(COMMA);
-          break;
-        default:
-          jj_la1[5] = jj_gen;
-          ;
-        }
-      }
-      jj_consume_token(RBRACE);
-      break;
     case IDENTIFIER:
-      jj_consume_token(IDENTIFIER);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case AS:
-        jj_consume_token(AS);
+      case LBRACE:
+        jj_consume_token(LBRACE);
+        label_3:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case IDENTIFIER:
+            ;
+            break;
+          default:
+            jj_la1[4] = jj_gen;
+            break label_3;
+          }
+          jj_consume_token(IDENTIFIER);
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case COMMA:
+            jj_consume_token(COMMA);
+            break;
+          default:
+            jj_la1[5] = jj_gen;
+            ;
+          }
+        }
+        jj_consume_token(RBRACE);
+        break;
+      case IDENTIFIER:
         jj_consume_token(IDENTIFIER);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case AS:
+          jj_consume_token(AS);
+          jj_consume_token(IDENTIFIER);
+          break;
+        default:
+          jj_la1[6] = jj_gen;
+          ;
+        }
         break;
       default:
-        jj_la1[6] = jj_gen;
-        ;
+        jj_la1[7] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
       }
       break;
     default:
-      jj_la1[7] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+      jj_la1[8] = jj_gen;
+      ;
     }
     jj_consume_token(SEMICOLON);
   }
@@ -191,7 +199,7 @@ public class Rust implements RustConstants {
         ;
         break;
       default:
-        jj_la1[8] = jj_gen;
+        jj_la1[9] = jj_gen;
         break label_4;
       }
       jj_consume_token(PATH_SEPARATOR);
@@ -225,7 +233,7 @@ public class Rust implements RustConstants {
     {if (true) return 1;}
       break;
     default:
-      jj_la1[9] = jj_gen;
+      jj_la1[10] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -242,7 +250,7 @@ public class Rust implements RustConstants {
         ;
         break;
       default:
-        jj_la1[10] = jj_gen;
+        jj_la1[11] = jj_gen;
         break label_5;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -253,7 +261,7 @@ public class Rust implements RustConstants {
         jj_consume_token(MINUS);
         break;
       default:
-        jj_la1[11] = jj_gen;
+        jj_la1[12] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -271,7 +279,7 @@ public class Rust implements RustConstants {
         ;
         break;
       default:
-        jj_la1[12] = jj_gen;
+        jj_la1[13] = jj_gen;
         break label_6;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -282,7 +290,7 @@ public class Rust implements RustConstants {
         jj_consume_token(DIVIDE);
         break;
       default:
-        jj_la1[13] = jj_gen;
+        jj_la1[14] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -301,7 +309,7 @@ public class Rust implements RustConstants {
       element();
       break;
     default:
-      jj_la1[14] = jj_gen;
+      jj_la1[15] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -318,7 +326,7 @@ public class Rust implements RustConstants {
       jj_consume_token(RPAREN);
       break;
     default:
-      jj_la1[15] = jj_gen;
+      jj_la1[16] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -326,7 +334,7 @@ public class Rust implements RustConstants {
 
 /* Fluxo de controle : regras adaptadas para a interface do parser global. */
 
-// Exemplo: if x > 0 { 1 } else { 2 } | while x < 10 { x = x + 1; }
+/* Exemplo: if x > 0 { 1 } else { 2 } | while x < 10 { x = x + 1; } */
   static final public void EstruturaControle() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case IF:
@@ -345,13 +353,13 @@ public class Rust implements RustConstants {
       MatchStmt();
       break;
     default:
-      jj_la1[16] = jj_gen;
+      jj_la1[17] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
   }
 
-// Exemplo: if condicao { 1 } else if outra { 2 } else { 3 }
+/* Exemplo: if condicao { 1 } else if outra { 2 } else { 3 } */
   static final public void IfStmt() throws ParseException {
     jj_consume_token(IF);
     Expressao();
@@ -374,25 +382,25 @@ public class Rust implements RustConstants {
       Bloco();
       break;
     default:
-      jj_la1[17] = jj_gen;
+      jj_la1[18] = jj_gen;
       ;
     }
   }
 
-// Exemplo: while x < 10 { x = x + 1; }
+/* Exemplo: while x < 10 { x = x + 1; } */
   static final public void WhileStmt() throws ParseException {
     jj_consume_token(WHILE);
     Expressao();
     Bloco();
   }
 
-// Exemplo: loop { contador = contador + 1; }
+/* Exemplo: loop { contador = contador + 1; } */
   static final public void LoopStmt() throws ParseException {
     jj_consume_token(LOOP);
     Bloco();
   }
 
-// Exemplo: for i in 0..10 { println!(i); }
+/* Exemplo: for i in 0..10 { println!(i); } */
   static final public void ForStmt() throws ParseException {
     jj_consume_token(FOR);
     jj_consume_token(IDENTIFIER);
@@ -401,7 +409,7 @@ public class Rust implements RustConstants {
     Bloco();
   }
 
-// Exemplo: match opcao { 1 => "Sim", _ => "Nao" }
+/* Exemplo: match opcao { 1 => "Sim", _ => "Nao" } */
   static final public void MatchStmt() throws ParseException {
     jj_consume_token(MATCH);
     Expressao();
@@ -419,7 +427,7 @@ public class Rust implements RustConstants {
         ;
         break;
       default:
-        jj_la1[18] = jj_gen;
+        jj_la1[19] = jj_gen;
         break label_8;
       }
       MatchArm();
@@ -428,21 +436,21 @@ public class Rust implements RustConstants {
         jj_consume_token(COMMA);
         break;
       default:
-        jj_la1[19] = jj_gen;
+        jj_la1[20] = jj_gen;
         ;
       }
     }
     jj_consume_token(RBRACE);
   }
 
-// Exemplo: 1 => "Sim"
+/* Exemplo: 1 => "Sim" */
   static final public void MatchArm() throws ParseException {
     Pattern();
     jj_consume_token(FAT_ARROW);
     MatchBody();
   }
 
-// Exemplo: _ | 1 | "texto" | true
+/* Exemplo: _ | 1 | "texto" | true */
   static final public void Pattern() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case CONSTANT:
@@ -467,13 +475,13 @@ public class Rust implements RustConstants {
       jj_consume_token(UNDERSCORE);
       break;
     default:
-      jj_la1[20] = jj_gen;
+      jj_la1[21] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
   }
 
-// Exemplo: { x + 1 } | "Sim" | resultado + 1
+/* Exemplo: { x + 1 } | "Sim" | resultado + 1 */
   static final public void MatchBody() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LBRACE:
@@ -498,13 +506,13 @@ public class Rust implements RustConstants {
       Expressao();
       break;
     default:
-      jj_la1[21] = jj_gen;
+      jj_la1[22] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
   }
 
-// Exemplo: 0..10 | lista
+/* Exemplo: 0..10 | lista */
   static final public void Iteravel() throws ParseException {
     Expressao();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -513,14 +521,14 @@ public class Rust implements RustConstants {
       Expressao();
       break;
     default:
-      jj_la1[22] = jj_gen;
+      jj_la1[23] = jj_gen;
       ;
     }
   }
 
 /* Wrappers temporarios para integrar o bloco de controle antes da chegada do Start(). */
 
-// Exemplo: { let x = 5; x + 1 }
+/* Exemplo: { let x = 5; x + 1 } */
   static final public void Bloco() throws ParseException {
     jj_consume_token(LBRACE);
     label_9:
@@ -550,13 +558,13 @@ public class Rust implements RustConstants {
       Expressao();
       break;
     default:
-      jj_la1[23] = jj_gen;
+      jj_la1[24] = jj_gen;
       ;
     }
     jj_consume_token(RBRACE);
   }
 
-// Exemplo: let x: i32 = 5;
+/* Exemplo: let x: i32 = 5; */
   static final public void DeclaracaoVar() throws ParseException {
     jj_consume_token(LET);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -564,7 +572,7 @@ public class Rust implements RustConstants {
       jj_consume_token(MUT);
       break;
     default:
-      jj_la1[24] = jj_gen;
+      jj_la1[25] = jj_gen;
       ;
     }
     jj_consume_token(IDENTIFIER);
@@ -574,7 +582,7 @@ public class Rust implements RustConstants {
       Tipo();
       break;
     default:
-      jj_la1[25] = jj_gen;
+      jj_la1[26] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -583,13 +591,13 @@ public class Rust implements RustConstants {
       Expressao();
       break;
     default:
-      jj_la1[26] = jj_gen;
+      jj_la1[27] = jj_gen;
       ;
     }
     jj_consume_token(SEMICOLON);
   }
 
-// Exemplo: const LIMITE: i32 = 10;
+/* Exemplo: const LIMITE: i32 = 10; */
   static final public void DeclaracaoConst() throws ParseException {
     jj_consume_token(CONST);
     jj_consume_token(IDENTIFIER);
@@ -600,7 +608,7 @@ public class Rust implements RustConstants {
     jj_consume_token(SEMICOLON);
   }
 
-// Exemplo: let x = 5; | if x > 0 { 1 } else { 2 } | soma(a, b);
+/* Exemplo: let x = 5; | if x > 0 { 1 } else { 2 } | soma(a, b); */
   static final public void Comando() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LET:
@@ -616,31 +624,41 @@ public class Rust implements RustConstants {
     case LOOP:
       EstruturaControle();
       break;
-    case MINUS:
-    case NOT:
-    case LPAREN:
-    case LBRACK:
-    case FALSE:
-    case TRUE:
-    case CONSTANT:
-    case FLOAT_LITERAL:
-    case BOOLEAN_LITERAL:
-    case CHAR_LITERAL:
-    case IDENTIFIER:
-    case STRING_LITERAL:
-      Expressao();
-      jj_consume_token(SEMICOLON);
-      break;
     default:
-      jj_la1[27] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+      jj_la1[28] = jj_gen;
+      if (jj_2_7(2)) {
+        EntradaSaida();
+      } else {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case MINUS:
+        case NOT:
+        case MATCH:
+        case IF:
+        case LPAREN:
+        case LBRACK:
+        case FALSE:
+        case TRUE:
+        case CONSTANT:
+        case FLOAT_LITERAL:
+        case BOOLEAN_LITERAL:
+        case CHAR_LITERAL:
+        case IDENTIFIER:
+        case STRING_LITERAL:
+          Expressao();
+          jj_consume_token(SEMICOLON);
+          break;
+        default:
+          jj_la1[29] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+      }
     }
   }
 
 /*  Tipos  */
 
-// Exemplo: i32 | (i32, bool) | [i32; 10]
+/* Exemplo: i32 | (i32, bool) | [i32; 10] */
   static final public void Tipo() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case I32:
@@ -662,7 +680,7 @@ public class Rust implements RustConstants {
           ;
           break;
         default:
-          jj_la1[28] = jj_gen;
+          jj_la1[30] = jj_gen;
           break label_10;
         }
       }
@@ -676,7 +694,7 @@ public class Rust implements RustConstants {
       jj_consume_token(RBRACK);
       break;
     default:
-      jj_la1[29] = jj_gen;
+      jj_la1[31] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -700,7 +718,7 @@ public class Rust implements RustConstants {
       jj_consume_token(STR_T);
       break;
     default:
-      jj_la1[30] = jj_gen;
+      jj_la1[32] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -708,7 +726,7 @@ public class Rust implements RustConstants {
 
 /*  Funcoes, Structs e Enums  */
 
-// Exemplo: fn soma(a: i32, b: i32) -> i32 { a + b }
+/* Exemplo: fn soma(a: i32, b: i32) -> i32 { a + b } */
   static final public void Funcao() throws ParseException {
     jj_consume_token(FN);
     jj_consume_token(IDENTIFIER);
@@ -718,7 +736,7 @@ public class Rust implements RustConstants {
       Parametros();
       break;
     default:
-      jj_la1[31] = jj_gen;
+      jj_la1[33] = jj_gen;
       ;
     }
     jj_consume_token(RPAREN);
@@ -728,13 +746,13 @@ public class Rust implements RustConstants {
       Tipo();
       break;
     default:
-      jj_la1[32] = jj_gen;
+      jj_la1[34] = jj_gen;
       ;
     }
     Bloco();
   }
 
-// Exemplo: a: i32, b: i32
+/* Exemplo: a: i32, b: i32 */
   static final public void Parametros() throws ParseException {
     Parametro();
     label_11:
@@ -744,7 +762,7 @@ public class Rust implements RustConstants {
         ;
         break;
       default:
-        jj_la1[33] = jj_gen;
+        jj_la1[35] = jj_gen;
         break label_11;
       }
       jj_consume_token(COMMA);
@@ -752,14 +770,14 @@ public class Rust implements RustConstants {
     }
   }
 
-// Exemplo: id: i32
+/* Exemplo: id: i32 */
   static final public void Parametro() throws ParseException {
     jj_consume_token(IDENTIFIER);
     jj_consume_token(COLON);
     Tipo();
   }
 
-// Exemplo: struct Pessoa { nome: str, idade: i32 }
+/* Exemplo: struct Pessoa { nome: str, idade: i32 } */
   static final public void StructDef() throws ParseException {
     jj_consume_token(STRUCT);
     jj_consume_token(IDENTIFIER);
@@ -769,13 +787,13 @@ public class Rust implements RustConstants {
       CamposStruct();
       break;
     default:
-      jj_la1[34] = jj_gen;
+      jj_la1[36] = jj_gen;
       ;
     }
     jj_consume_token(RBRACE);
   }
 
-// Exemplo: nome: str, idade: i32,
+/* Exemplo: nome: str, idade: i32, */
   static final public void CamposStruct() throws ParseException {
     CampoStruct();
     label_12:
@@ -785,7 +803,7 @@ public class Rust implements RustConstants {
         ;
         break;
       default:
-        jj_la1[35] = jj_gen;
+        jj_la1[37] = jj_gen;
         break label_12;
       }
       jj_consume_token(COMMA);
@@ -796,19 +814,19 @@ public class Rust implements RustConstants {
       jj_consume_token(COMMA);
       break;
     default:
-      jj_la1[36] = jj_gen;
+      jj_la1[38] = jj_gen;
       ;
     }
   }
 
-// Exemplo: idade: i32
+/* Exemplo: idade: i32 */
   static final public void CampoStruct() throws ParseException {
     jj_consume_token(IDENTIFIER);
     jj_consume_token(COLON);
     Tipo();
   }
 
-// Exemplo: enum Cor { Vermelho, Verde, Azul }
+/* Exemplo: enum Cor { Vermelho, Verde, Azul } */
   static final public void EnumDef() throws ParseException {
     jj_consume_token(ENUM);
     jj_consume_token(IDENTIFIER);
@@ -818,13 +836,13 @@ public class Rust implements RustConstants {
       VariantesEnum();
       break;
     default:
-      jj_la1[37] = jj_gen;
+      jj_la1[39] = jj_gen;
       ;
     }
     jj_consume_token(RBRACE);
   }
 
-// Exemplo: Vermelho, Verde, Azul,
+/* Exemplo: Vermelho, Verde, Azul, */
   static final public void VariantesEnum() throws ParseException {
     jj_consume_token(IDENTIFIER);
     label_13:
@@ -834,7 +852,7 @@ public class Rust implements RustConstants {
         ;
         break;
       default:
-        jj_la1[38] = jj_gen;
+        jj_la1[40] = jj_gen;
         break label_13;
       }
       jj_consume_token(COMMA);
@@ -845,18 +863,18 @@ public class Rust implements RustConstants {
       jj_consume_token(COMMA);
       break;
     default:
-      jj_la1[39] = jj_gen;
+      jj_la1[41] = jj_gen;
       ;
     }
   }
 
-// Exemplo: a + b * 2 > 10 && ativo
+/* Exemplo: a + b * 2 > 10 && ativo */
   static final public void Expressao() throws ParseException {
     Atribuicao();
   }
 
   static final public void Atribuicao() throws ParseException {
-    if (jj_2_7(2)) {
+    if (jj_2_8(2)) {
       jj_consume_token(IDENTIFIER);
       jj_consume_token(ASSIGN);
       Atribuicao();
@@ -879,14 +897,14 @@ public class Rust implements RustConstants {
         ExpressaoLogicaOr();
         break;
       default:
-        jj_la1[40] = jj_gen;
+        jj_la1[42] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
     }
   }
 
-//1: or lógico (||)
+/* 1: or lógico (||) */
   static final public void ExpressaoLogicaOr() throws ParseException {
     ExpressaoLogicaAnd();
     label_14:
@@ -896,7 +914,7 @@ public class Rust implements RustConstants {
         ;
         break;
       default:
-        jj_la1[41] = jj_gen;
+        jj_la1[43] = jj_gen;
         break label_14;
       }
       jj_consume_token(OR);
@@ -904,7 +922,7 @@ public class Rust implements RustConstants {
     }
   }
 
-//2: and logico (&&)
+/* 2: and logico (&&) */
   static final public void ExpressaoLogicaAnd() throws ParseException {
     ExpressaoIgualdade();
     label_15:
@@ -914,7 +932,7 @@ public class Rust implements RustConstants {
         ;
         break;
       default:
-        jj_la1[42] = jj_gen;
+        jj_la1[44] = jj_gen;
         break label_15;
       }
       jj_consume_token(AND);
@@ -922,7 +940,7 @@ public class Rust implements RustConstants {
     }
   }
 
-//3: igualdade (==, !=)
+/* 3: igualdade (==, !=) */
   static final public void ExpressaoIgualdade() throws ParseException {
     ExpressaoRelacional();
     label_16:
@@ -933,7 +951,7 @@ public class Rust implements RustConstants {
         ;
         break;
       default:
-        jj_la1[43] = jj_gen;
+        jj_la1[45] = jj_gen;
         break label_16;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -944,7 +962,7 @@ public class Rust implements RustConstants {
         jj_consume_token(NEQ);
         break;
       default:
-        jj_la1[44] = jj_gen;
+        jj_la1[46] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -952,7 +970,7 @@ public class Rust implements RustConstants {
     }
   }
 
-//4: relacional (<, >, <=, >=)
+/* 4: relacional (<, >, <=, >=) */
   static final public void ExpressaoRelacional() throws ParseException {
     ExpressaoAditiva();
     label_17:
@@ -965,7 +983,7 @@ public class Rust implements RustConstants {
         ;
         break;
       default:
-        jj_la1[45] = jj_gen;
+        jj_la1[47] = jj_gen;
         break label_17;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -982,7 +1000,7 @@ public class Rust implements RustConstants {
         jj_consume_token(GE);
         break;
       default:
-        jj_la1[46] = jj_gen;
+        jj_la1[48] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -990,7 +1008,7 @@ public class Rust implements RustConstants {
     }
   }
 
-//5: adição e Subtração (+, -)
+/* 5: adição e Subtração (+, -) */
   static final public void ExpressaoAditiva() throws ParseException {
     ExpressaoMultiplicativa();
     label_18:
@@ -1001,7 +1019,7 @@ public class Rust implements RustConstants {
         ;
         break;
       default:
-        jj_la1[47] = jj_gen;
+        jj_la1[49] = jj_gen;
         break label_18;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1012,7 +1030,7 @@ public class Rust implements RustConstants {
         jj_consume_token(MINUS);
         break;
       default:
-        jj_la1[48] = jj_gen;
+        jj_la1[50] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1020,7 +1038,7 @@ public class Rust implements RustConstants {
     }
   }
 
-// Precedência 6: Multiplicação, Divisão e Módulo (*, /, %)
+/* Precedência 6: Multiplicação, Divisão e Módulo (*, /, %) */
   static final public void ExpressaoMultiplicativa() throws ParseException {
     ExpressaoUnaria();
     label_19:
@@ -1032,7 +1050,7 @@ public class Rust implements RustConstants {
         ;
         break;
       default:
-        jj_la1[49] = jj_gen;
+        jj_la1[51] = jj_gen;
         break label_19;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1046,7 +1064,7 @@ public class Rust implements RustConstants {
         jj_consume_token(MODULO);
         break;
       default:
-        jj_la1[50] = jj_gen;
+        jj_la1[52] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1054,7 +1072,7 @@ public class Rust implements RustConstants {
     }
   }
 
-//7: operadores unários (!verdadeiro, -numero)
+/* 7: operadores unários (!verdadeiro, -numero) */
   static final public void ExpressaoUnaria() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case MINUS:
@@ -1067,7 +1085,7 @@ public class Rust implements RustConstants {
         jj_consume_token(NOT);
         break;
       default:
-        jj_la1[51] = jj_gen;
+        jj_la1[53] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1088,34 +1106,27 @@ public class Rust implements RustConstants {
       ExpressaoAcessoOuChamada();
       break;
     default:
-      jj_la1[52] = jj_gen;
+      jj_la1[54] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
   }
 
-// Exemplo: soma(a, b) | pessoa.nome | lista.push(x)
+/* Exemplo: soma(a, b) | pessoa.nome | lista.push(x) */
   static final public void ExpressaoAcessoOuChamada() throws ParseException {
     FatorBase();
     label_20:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case NOT:
       case DOT:
       case LPAREN:
         ;
         break;
       default:
-        jj_la1[53] = jj_gen;
+        jj_la1[55] = jj_gen;
         break label_20;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case NOT:
-        jj_consume_token(NOT);
-        jj_consume_token(LPAREN);
-        ListaArgumentos();
-        jj_consume_token(RPAREN);
-        break;
       case LPAREN:
         jj_consume_token(LPAREN);
         ListaArgumentos();
@@ -1131,19 +1142,19 @@ public class Rust implements RustConstants {
           jj_consume_token(RPAREN);
           break;
         default:
-          jj_la1[54] = jj_gen;
+          jj_la1[56] = jj_gen;
           ;
         }
         break;
       default:
-        jj_la1[55] = jj_gen;
+        jj_la1[57] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
     }
   }
 
-// Exemplo: 10 | nome | if ok { 1 } else { 2 } | match x { _ => 0 } | [1, 2]
+/* Exemplo: 10 | nome | if ok { 1 } else { 2 } | match x { _ => 0 } | [1, 2] */
   static final public void FatorBase() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case FALSE:
@@ -1158,41 +1169,52 @@ public class Rust implements RustConstants {
     case IDENTIFIER:
       jj_consume_token(IDENTIFIER);
       break;
-    case IF:
-      IfStmt();
-      break;
-    case MATCH:
-      MatchStmt();
-      break;
-    case LPAREN:
-      jj_consume_token(LPAREN);
-      Expressao();
-      label_21:
-      while (true) {
-        jj_consume_token(COMMA);
-        Expressao();
+    default:
+      jj_la1[59] = jj_gen;
+      if (jj_2_9(2)) {
+        IfStmt();
+      } else {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case COMMA:
-          ;
+        case MATCH:
+          MatchStmt();
           break;
         default:
-          jj_la1[56] = jj_gen;
-          break label_21;
+          jj_la1[60] = jj_gen;
+          if (jj_2_10(3)) {
+            jj_consume_token(LPAREN);
+            Expressao();
+            label_21:
+            while (true) {
+              jj_consume_token(COMMA);
+              Expressao();
+              switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+              case COMMA:
+                ;
+                break;
+              default:
+                jj_la1[58] = jj_gen;
+                break label_21;
+              }
+            }
+            jj_consume_token(RPAREN);
+          } else {
+            switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+            case LPAREN:
+              jj_consume_token(LPAREN);
+              Expressao();
+              jj_consume_token(RPAREN);
+              break;
+            case LBRACK:
+              ArrayLiteral();
+              break;
+            default:
+              jj_la1[61] = jj_gen;
+              jj_consume_token(-1);
+              throw new ParseException();
+            }
+          }
         }
       }
-      jj_consume_token(RPAREN);
-      break;
-      jj_consume_token(LPAREN);
-      Expressao();
-      jj_consume_token(RPAREN);
-      break;
-    case LBRACK:
-      ArrayLiteral();
-      break;
-    default:
-      jj_la1[57] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
     }
   }
 
@@ -1220,7 +1242,7 @@ public class Rust implements RustConstants {
       jj_consume_token(STRING_LITERAL);
       break;
     default:
-      jj_la1[58] = jj_gen;
+      jj_la1[62] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1246,7 +1268,7 @@ public class Rust implements RustConstants {
       ListaExpressoes();
       break;
     default:
-      jj_la1[59] = jj_gen;
+      jj_la1[63] = jj_gen;
       ;
     }
     jj_consume_token(RBRACK);
@@ -1261,7 +1283,7 @@ public class Rust implements RustConstants {
         ;
         break;
       default:
-        jj_la1[60] = jj_gen;
+        jj_la1[64] = jj_gen;
         break label_22;
       }
       jj_consume_token(COMMA);
@@ -1269,7 +1291,7 @@ public class Rust implements RustConstants {
     }
   }
 
-//regra para ajudar a processar os argumentos separados por virgula
+/* Regra para ajudar a processar os argumentos separados por virgula */
   static final public void ListaArgumentos() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case MINUS:
@@ -1294,7 +1316,7 @@ public class Rust implements RustConstants {
           ;
           break;
         default:
-          jj_la1[61] = jj_gen;
+          jj_la1[65] = jj_gen;
           break label_23;
         }
         jj_consume_token(COMMA);
@@ -1302,7 +1324,7 @@ public class Rust implements RustConstants {
       }
       break;
     default:
-      jj_la1[62] = jj_gen;
+      jj_la1[66] = jj_gen;
       ;
     }
   }
@@ -1356,19 +1378,35 @@ public class Rust implements RustConstants {
     finally { jj_save(6, xla); }
   }
 
-  static private boolean jj_3R_71() {
+  static private boolean jj_2_8(int xla) {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_8(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(7, xla); }
+  }
+
+  static private boolean jj_2_9(int xla) {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_9(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(8, xla); }
+  }
+
+  static private boolean jj_2_10(int xla) {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_10(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(9, xla); }
+  }
+
+  static private boolean jj_3R_75() {
+    if (jj_3R_79()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_74() {
     if (jj_scan_token(LPAREN)) return true;
-    if (jj_3R_36()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_70() {
-    if (jj_3R_47()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_69() {
-    if (jj_3R_43()) return true;
+    if (jj_3R_31()) return true;
     return false;
   }
 
@@ -1378,27 +1416,49 @@ public class Rust implements RustConstants {
     return false;
   }
 
-  static private boolean jj_3R_68() {
-    if (jj_3R_77()) return true;
+  static private boolean jj_3_10() {
+    if (jj_scan_token(LPAREN)) return true;
+    if (jj_3R_31()) return true;
+    Token xsp;
+    if (jj_3R_32()) return true;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_32()) { jj_scanpos = xsp; break; }
+    }
     return false;
   }
 
-  static private boolean jj_3R_66() {
+  static private boolean jj_3R_73() {
+    if (jj_3R_53()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_9() {
+    if (jj_3R_30()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_72() {
+    if (jj_3R_78()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_70() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_68()) {
+    if (jj_3R_72()) {
     jj_scanpos = xsp;
     if (jj_scan_token(102)) {
     jj_scanpos = xsp;
-    if (jj_3R_69()) {
+    if (jj_3_9()) {
     jj_scanpos = xsp;
-    if (jj_3R_70()) {
+    if (jj_3R_73()) {
     jj_scanpos = xsp;
-    if (jj_3R_71()) {
+    if (jj_3_10()) {
     jj_scanpos = xsp;
-    if (jj_3R_72()) {
+    if (jj_3R_74()) {
     jj_scanpos = xsp;
-    if (jj_3R_73()) return true;
+    if (jj_3R_75()) return true;
     }
     }
     }
@@ -1408,7 +1468,7 @@ public class Rust implements RustConstants {
     return false;
   }
 
-  static private boolean jj_3R_60() {
+  static private boolean jj_3R_64() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(5)) {
@@ -1418,7 +1478,13 @@ public class Rust implements RustConstants {
     return false;
   }
 
-  static private boolean jj_3R_62() {
+  static private boolean jj_3R_53() {
+    if (jj_scan_token(MATCH)) return true;
+    if (jj_3R_31()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_66() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(7)) {
@@ -1431,51 +1497,27 @@ public class Rust implements RustConstants {
     return false;
   }
 
-  static private boolean jj_3R_76() {
+  static private boolean jj_3R_77() {
     if (jj_scan_token(DOT)) return true;
     return false;
   }
 
-  static private boolean jj_3R_47() {
-    if (jj_scan_token(MATCH)) return true;
-    if (jj_3R_36()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_75() {
+  static private boolean jj_3R_76() {
     if (jj_scan_token(LPAREN)) return true;
     return false;
   }
 
-  static private boolean jj_3R_74() {
-    if (jj_scan_token(NOT)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_67() {
+  static private boolean jj_3R_71() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_74()) {
+    if (jj_3R_76()) {
     jj_scanpos = xsp;
-    if (jj_3R_75()) {
-    jj_scanpos = xsp;
-    if (jj_3R_76()) return true;
-    }
+    if (jj_3R_77()) return true;
     }
     return false;
   }
 
-  static private boolean jj_3R_65() {
-    if (jj_3R_66()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_67()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  static private boolean jj_3R_46() {
+  static private boolean jj_3R_52() {
     if (jj_scan_token(FOR)) return true;
     if (jj_scan_token(IDENTIFIER)) return true;
     return false;
@@ -1487,7 +1529,17 @@ public class Rust implements RustConstants {
     return false;
   }
 
-  static private boolean jj_3R_58() {
+  static private boolean jj_3R_69() {
+    if (jj_3R_70()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_71()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_62() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(15)) {
@@ -1503,33 +1555,18 @@ public class Rust implements RustConstants {
     return false;
   }
 
-  static private boolean jj_3R_64() {
-    if (jj_3R_65()) return true;
+  static private boolean jj_3R_51() {
+    if (jj_scan_token(LOOP)) return true;
+    if (jj_3R_56()) return true;
     return false;
   }
 
-  static private boolean jj_3R_63() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(6)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(12)) return true;
-    }
-    if (jj_3R_61()) return true;
+  static private boolean jj_3R_68() {
+    if (jj_3R_69()) return true;
     return false;
   }
 
-  static private boolean jj_3R_61() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_63()) {
-    jj_scanpos = xsp;
-    if (jj_3R_64()) return true;
-    }
-    return false;
-  }
-
-  static private boolean jj_3R_56() {
+  static private boolean jj_3R_60() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(13)) {
@@ -1539,9 +1576,117 @@ public class Rust implements RustConstants {
     return false;
   }
 
-  static private boolean jj_3R_45() {
-    if (jj_scan_token(LOOP)) return true;
-    if (jj_3R_49()) return true;
+  static private boolean jj_3R_67() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(6)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(12)) return true;
+    }
+    if (jj_3R_65()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_65() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_67()) {
+    jj_scanpos = xsp;
+    if (jj_3R_68()) return true;
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_50() {
+    if (jj_scan_token(WHILE)) return true;
+    if (jj_3R_31()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_63() {
+    if (jj_3R_65()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_66()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_58() {
+    if (jj_scan_token(AND)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_5() {
+    if (jj_scan_token(ELSE)) return true;
+    if (jj_scan_token(IF)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_36() {
+    if (jj_3R_31()) return true;
+    if (jj_scan_token(SEMICOLON)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_61() {
+    if (jj_3R_63()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_64()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  static private boolean jj_3_7() {
+    if (jj_3R_29()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_55() {
+    if (jj_scan_token(OR)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_35() {
+    if (jj_3R_42()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_30() {
+    if (jj_scan_token(IF)) return true;
+    if (jj_3R_31()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_34() {
+    if (jj_3R_41()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_28() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_33()) {
+    jj_scanpos = xsp;
+    if (jj_3R_34()) {
+    jj_scanpos = xsp;
+    if (jj_3R_35()) {
+    jj_scanpos = xsp;
+    if (jj_3_7()) {
+    jj_scanpos = xsp;
+    if (jj_3R_36()) return true;
+    }
+    }
+    }
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_33() {
+    if (jj_3R_40()) return true;
     return false;
   }
 
@@ -1555,14 +1700,73 @@ public class Rust implements RustConstants {
     return false;
   }
 
-  static private boolean jj_3R_54() {
-    if (jj_scan_token(AND)) return true;
+  static private boolean jj_3_4() {
+    if (jj_3R_27()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_48() {
+    if (jj_3R_53()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_3() {
+    if (jj_3R_26()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_47() {
+    if (jj_3R_52()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_41() {
+    if (jj_scan_token(CONST)) return true;
+    if (jj_scan_token(IDENTIFIER)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_2() {
+    if (jj_3R_25()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_46() {
+    if (jj_3R_51()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_1() {
+    if (jj_3R_24()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_45() {
+    if (jj_3R_50()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_42() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_44()) {
+    jj_scanpos = xsp;
+    if (jj_3R_45()) {
+    jj_scanpos = xsp;
+    if (jj_3R_46()) {
+    jj_scanpos = xsp;
+    if (jj_3R_47()) {
+    jj_scanpos = xsp;
+    if (jj_3R_48()) return true;
+    }
+    }
+    }
+    }
     return false;
   }
 
   static private boolean jj_3R_44() {
-    if (jj_scan_token(WHILE)) return true;
-    if (jj_3R_36()) return true;
+    if (jj_3R_30()) return true;
     return false;
   }
 
@@ -1576,61 +1780,21 @@ public class Rust implements RustConstants {
     return false;
   }
 
-  static private boolean jj_3R_52() {
-    if (jj_scan_token(OR)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_32() {
-    if (jj_3R_36()) return true;
-    if (jj_scan_token(SEMICOLON)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_5() {
-    if (jj_scan_token(ELSE)) return true;
-    if (jj_scan_token(IF)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_31() {
-    if (jj_3R_35()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_30() {
-    if (jj_3R_34()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_29() {
-    if (jj_3R_33()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_28() {
+  static private boolean jj_3R_40() {
+    if (jj_scan_token(LET)) return true;
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_29()) {
-    jj_scanpos = xsp;
-    if (jj_3R_30()) {
-    jj_scanpos = xsp;
-    if (jj_3R_31()) {
-    jj_scanpos = xsp;
-    if (jj_3R_32()) return true;
-    }
-    }
-    }
+    if (jj_scan_token(27)) jj_scanpos = xsp;
+    if (jj_scan_token(IDENTIFIER)) return true;
     return false;
   }
 
-  static private boolean jj_3R_43() {
-    if (jj_scan_token(IF)) return true;
-    if (jj_3R_36()) return true;
+  static private boolean jj_3_6() {
+    if (jj_3R_28()) return true;
     return false;
   }
 
-  static private boolean jj_3R_55() {
+  static private boolean jj_3R_54() {
     if (jj_3R_57()) return true;
     Token xsp;
     while (true) {
@@ -1640,172 +1804,95 @@ public class Rust implements RustConstants {
     return false;
   }
 
-  static private boolean jj_3_4() {
-    if (jj_3R_27()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_41() {
-    if (jj_3R_47()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_3() {
-    if (jj_3R_26()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_40() {
-    if (jj_3R_46()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_34() {
-    if (jj_scan_token(CONST)) return true;
-    if (jj_scan_token(IDENTIFIER)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_53() {
-    if (jj_3R_55()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_56()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  static private boolean jj_3_2() {
-    if (jj_3R_25()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_39() {
-    if (jj_3R_45()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_1() {
-    if (jj_3R_24()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_38() {
-    if (jj_3R_44()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_35() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_37()) {
-    jj_scanpos = xsp;
-    if (jj_3R_38()) {
-    jj_scanpos = xsp;
-    if (jj_3R_39()) {
-    jj_scanpos = xsp;
-    if (jj_3R_40()) {
-    jj_scanpos = xsp;
-    if (jj_3R_41()) return true;
-    }
-    }
-    }
-    }
-    return false;
-  }
-
-  static private boolean jj_3R_37() {
-    if (jj_3R_43()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_33() {
-    if (jj_scan_token(LET)) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(27)) jj_scanpos = xsp;
-    if (jj_scan_token(IDENTIFIER)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_51() {
-    if (jj_3R_53()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_54()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  static private boolean jj_3_6() {
-    if (jj_3R_28()) return true;
-    return false;
-  }
-
   static private boolean jj_3R_27() {
     if (jj_scan_token(MOD)) return true;
     if (jj_scan_token(IDENTIFIER)) return true;
     return false;
   }
 
-  static private boolean jj_3R_50() {
-    if (jj_3R_51()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_52()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  static private boolean jj_3R_49() {
+  static private boolean jj_3R_56() {
     if (jj_scan_token(LBRACE)) return true;
     return false;
   }
 
-  static private boolean jj_3R_48() {
-    if (jj_3R_50()) return true;
+  static private boolean jj_3R_49() {
+    if (jj_3R_54()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_55()) { jj_scanpos = xsp; break; }
+    }
     return false;
   }
 
-  static private boolean jj_3_7() {
+  static private boolean jj_3R_38() {
+    if (jj_scan_token(READ)) return true;
+    if (jj_scan_token(LPAREN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_32() {
+    if (jj_scan_token(COMMA)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_29() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_37()) {
+    jj_scanpos = xsp;
+    if (jj_3R_38()) return true;
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_37() {
+    if (jj_scan_token(PRINT)) return true;
+    if (jj_scan_token(LPAREN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_43() {
+    if (jj_3R_49()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_8() {
     if (jj_scan_token(IDENTIFIER)) return true;
     if (jj_scan_token(ASSIGN)) return true;
     return false;
   }
 
-  static private boolean jj_3R_42() {
+  static private boolean jj_3R_39() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3_7()) {
+    if (jj_3_8()) {
     jj_scanpos = xsp;
-    if (jj_3R_48()) return true;
+    if (jj_3R_43()) return true;
     }
     return false;
   }
 
-  static private boolean jj_3R_79() {
-    if (jj_3R_80()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_36() {
-    if (jj_3R_42()) return true;
-    return false;
-  }
-
   static private boolean jj_3R_80() {
-    if (jj_3R_36()) return true;
+    if (jj_3R_81()) return true;
     return false;
   }
 
-  static private boolean jj_3R_78() {
+  static private boolean jj_3R_31() {
+    if (jj_3R_39()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_81() {
+    if (jj_3R_31()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_79() {
     if (jj_scan_token(LBRACK)) return true;
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_79()) jj_scanpos = xsp;
+    if (jj_3R_80()) jj_scanpos = xsp;
     if (jj_scan_token(RBRACK)) return true;
     return false;
   }
@@ -1816,7 +1903,7 @@ public class Rust implements RustConstants {
     return false;
   }
 
-  static private boolean jj_3R_77() {
+  static private boolean jj_3R_78() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(97)) {
@@ -1841,17 +1928,6 @@ public class Rust implements RustConstants {
     return false;
   }
 
-  static private boolean jj_3R_73() {
-    if (jj_3R_78()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_72() {
-    if (jj_scan_token(LPAREN)) return true;
-    if (jj_3R_36()) return true;
-    return false;
-  }
-
   static private boolean jj_initialized_once = false;
   /** Generated Token Manager. */
   static public RustTokenManager token_source;
@@ -1867,7 +1943,7 @@ public class Rust implements RustConstants {
   static private boolean jj_lookingAhead = false;
   static private boolean jj_semLA;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[63];
+  static final private int[] jj_la1 = new int[67];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static private int[] jj_la1_2;
@@ -1879,18 +1955,18 @@ public class Rust implements RustConstants {
       jj_la1_init_3();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x2000000,0x0,0x2000000,0x0,0x0,0x0,0x0,0x0,0x0,0x30001040,0x60,0x60,0x180,0x180,0x40,0x0,0xb0000000,0x40000000,0x0,0x0,0x0,0x30001040,0x0,0x30001040,0x8000000,0x0,0x0,0xb4001040,0x0,0x1f00000,0x1f00000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x30001040,0x800,0x400,0x6000,0x6000,0x78000,0x78000,0x60,0x60,0x380,0x380,0x1040,0x30001040,0x81000,0x0,0x81000,0x0,0x30000000,0x0,0x30001040,0x0,0x0,0x30001040,};
+      jj_la1_0 = new int[] {0x2000000,0x0,0x2000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x30001040,0x60,0x60,0x180,0x180,0x40,0x0,0xb0000000,0x40000000,0x0,0x0,0x0,0x30001040,0x0,0x30001040,0x8000000,0x0,0x0,0xb4000000,0x30001040,0x0,0x1f00000,0x1f00000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x30001040,0x800,0x400,0x6000,0x6000,0x78000,0x78000,0x60,0x60,0x380,0x380,0x1040,0x30001040,0x80000,0x0,0x80000,0x0,0x0,0x10000000,0x0,0x0,0x30001040,0x0,0x0,0x30001040,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x20086000,0x0,0x20086000,0x80000,0x0,0x200,0x8000,0x20,0x0,0x3000888,0x0,0x0,0x0,0x0,0x80,0x80,0x10000001,0x0,0x3000000,0x200,0x3000000,0x30008a0,0x0,0x3000880,0x0,0x10,0x4,0x13080881,0x200,0x880,0x0,0x0,0x2,0x200,0x0,0x200,0x200,0x0,0x200,0x200,0x3000880,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x3000880,0x80,0x80,0x80,0x200,0x3000880,0x3000000,0x3000880,0x200,0x200,0x3000880,};
+      jj_la1_1 = new int[] {0x20086000,0x0,0x20086000,0x80000,0x0,0x200,0x8000,0x20,0x20,0x0,0x3000888,0x0,0x0,0x0,0x0,0x80,0x80,0x10000001,0x0,0x3000000,0x200,0x3000000,0x30008a0,0x0,0x3000880,0x0,0x10,0x4,0x10080001,0x3000880,0x200,0x880,0x0,0x0,0x2,0x200,0x0,0x200,0x200,0x0,0x200,0x200,0x3000880,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x3000880,0x80,0x80,0x80,0x200,0x3000000,0x0,0x880,0x3000000,0x3000880,0x200,0x200,0x3000880,};
    }
    private static void jj_la1_init_2() {
-      jj_la1_2 = new int[] {0x200,0x0,0x200,0x200,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x40000000,0x0,0x40000000,0x0,0x80000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_2 = new int[] {0x200,0x0,0x200,0x200,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x40000000,0x0,0x40000000,0x0,0x80000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_3() {
-      jj_la1_3 = new int[] {0x0,0x300,0x0,0x0,0x40,0x0,0x0,0x40,0x1,0xde,0x0,0x0,0x0,0x0,0x2,0x2,0x0,0x0,0xca,0x0,0xca,0xde,0x0,0xde,0x0,0x0,0x0,0xde,0x0,0x0,0x0,0x40,0x0,0x0,0x40,0x0,0x0,0x40,0x0,0x0,0xde,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0xde,0x0,0x0,0x0,0x0,0xde,0x9e,0xde,0x0,0x0,0xde,};
+      jj_la1_3 = new int[] {0x0,0x300,0x0,0x0,0x40,0x0,0x0,0x40,0x40,0x1,0xde,0x0,0x0,0x0,0x0,0x2,0x2,0x0,0x0,0xca,0x0,0xca,0xde,0x0,0xde,0x0,0x0,0x0,0x0,0xde,0x0,0x0,0x0,0x40,0x0,0x0,0x40,0x0,0x0,0x40,0x0,0x0,0xde,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0xde,0x0,0x0,0x0,0x0,0xde,0x0,0x0,0x9e,0xde,0x0,0x0,0xde,};
    }
-  static final private JJCalls[] jj_2_rtns = new JJCalls[7];
+  static final private JJCalls[] jj_2_rtns = new JJCalls[10];
   static private boolean jj_rescan = false;
   static private int jj_gc = 0;
 
@@ -1912,7 +1988,7 @@ public class Rust implements RustConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 63; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 67; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1927,7 +2003,7 @@ public class Rust implements RustConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 63; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 67; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1945,7 +2021,7 @@ public class Rust implements RustConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 63; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 67; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1956,7 +2032,7 @@ public class Rust implements RustConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 63; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 67; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1973,7 +2049,7 @@ public class Rust implements RustConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 63; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 67; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1983,7 +2059,7 @@ public class Rust implements RustConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 63; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 67; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2103,7 +2179,7 @@ public class Rust implements RustConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 63; i++) {
+    for (int i = 0; i < 67; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -2148,7 +2224,7 @@ public class Rust implements RustConstants {
 
   static private void jj_rescan_token() {
     jj_rescan = true;
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 10; i++) {
     try {
       JJCalls p = jj_2_rtns[i];
       do {
@@ -2162,6 +2238,9 @@ public class Rust implements RustConstants {
             case 4: jj_3_5(); break;
             case 5: jj_3_6(); break;
             case 6: jj_3_7(); break;
+            case 7: jj_3_8(); break;
+            case 8: jj_3_9(); break;
+            case 9: jj_3_10(); break;
           }
         }
         p = p.next;
